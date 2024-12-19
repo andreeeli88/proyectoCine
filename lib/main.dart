@@ -1,10 +1,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:taller/screens/Bienvenida.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 
+void main() async {
+  // Asegura que los widgets estén inicializados
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  // Inicializa Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Ejecuta la aplicación
   runApp(const Proyecto());
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taller/screens/catalogo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -38,35 +39,52 @@ class Login extends StatelessWidget {
               obscureText: true,
             ),
             const SizedBox(height: 20),
-           /* ElevatedButton(
-              onPressed: () {
-                final email = emailController.text;
-                final password = passwordController.text;
-
+            ElevatedButton(
+              onPressed: () async {
+                final email = emailController.text.trim();
+                final password = passwordController.text.trim();
 
                 if (email.isNotEmpty && password.isNotEmpty) {
-             
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Bienvenido, $email")),
-                  );
-                  Navigator.pop(context);
+                  try {
+                    await loginUser(email, password);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Catalogo()),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Bienvenido, $email")),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Error: $e")),
+                    );
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text("Por favor, llena todos los campos")),
-                  );
+                        content: Text("Error")                  ));
                 }
               },
               child: const Text("Iniciar sesión"),
-              
-            ),*/
-            boton1(context)
+            ),
           ],
         ),
       ),
     );
   }
 }
-Widget boton1(context){
-  return ElevatedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> Catalogo() )), child: Text("Ingrese"));
+
+Future<void> loginUser(correo, pass ) async {
+  try {
+  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: correo,
+    password: pass
+  );
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
+  }
+}
 }
