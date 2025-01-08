@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:taller/screens/Bienvenida.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:taller/screens/catalogo.dart';
 import 'firebase_options.dart';
 
 
@@ -35,7 +36,7 @@ class Pagina extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Bienvenida(),
+      body: Catalogo(),
     );
   }
 }
