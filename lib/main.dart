@@ -36,7 +36,7 @@ class Pagina extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Catalogo(),
+      body: Bienvenida(),
     );
   }
 }
